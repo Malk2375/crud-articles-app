@@ -1,23 +1,15 @@
 import React, { useEffect, createContext } from 'react';
 import './App.css';
 import Container from '@mui/material/Container';
-import { createTheme } from '@mui/material/styles';
 import Article from './getArticle/Article';
 import UpdateArticle from './updateArticle/UpdateArticle';
 import AddArticle from './addArticle/AddArticle';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import io from 'socket.io-client';
-
-const theme = createTheme();
-theme.typography.h3 = {
-  fontSize: '1.2rem',
-  '@media (min-width:600px)': {
-    fontSize: '1.5rem',
-  },
-  [theme.breakpoints.up('md')]: {
-    fontSize: '2rem',
-  },
-};
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
 
 // Initialise le socket en dehors du composant App pour éviter les re-rendus multiples
 const socket = io('http://localhost:8000');

@@ -1,6 +1,7 @@
 import Article from "../model/articleModel.js";
 import { io } from "../index.js"; // Importer io depuis index.js
 
+// Fonction pour créer un nouvel article
 export const create = async (req, res) => {
   try {
     const newArticle = new Article(req.body);
@@ -18,6 +19,7 @@ export const create = async (req, res) => {
   }
 };
 
+// Fonction pour récupérer tous les articles
 export const getAllArticles = async (req, res) => {
   try {
     const articleData = await Article.find();
@@ -30,6 +32,7 @@ export const getAllArticles = async (req, res) => {
   }
 };
 
+// Fonction pour récupérer un article par son identifiant
 export const getArticleById = async (req, res) => {
   try {
     const id = req.params.id;
@@ -43,6 +46,7 @@ export const getArticleById = async (req, res) => {
   }
 };
 
+// Fonction pour mettre à jour un article existant
 export const update = async (req, res) => {
   try {
     const id = req.params.id;
@@ -58,6 +62,7 @@ export const update = async (req, res) => {
   }
 };
 
+// Fonction pour supprimer un article
 export const deleteArticle = async (req, res) => {
   try {
     const id = req.params.id;

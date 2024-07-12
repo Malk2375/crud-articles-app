@@ -11,6 +11,7 @@ import Button from '@mui/material/Button';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { Box, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { SocketContext } from '../App';
@@ -79,8 +80,14 @@ const Article = () => {
 
   return (
     <div className="articleTable">
+      <Box sx={{ textAlign: 'center', marginBottom: '20px', marginTop: '20px' }}>
+        <Typography variant="h3" gutterBottom>
+          La Liste des articles
+        </Typography>
+      </Box>
+
       <Link to="/add">
-        <Button variant="contained" endIcon={<AddBoxIcon />}>
+        <Button sx={{ marginBottom: '30px', marginTop: '30px' }} variant="contained" endIcon={<AddBoxIcon />}>
           Ajouter un article
         </Button>
       </Link>
@@ -95,44 +102,47 @@ const Article = () => {
             <TableHead>
               <TableRow>
                 <TableCell>ID</TableCell>
-                <TableCell align="right">Nom de l'article</TableCell>
-                <TableCell align="right">Type</TableCell>
-                <TableCell align="right">Prix</TableCell>
-                <TableCell align="right">Note</TableCell>
-                <TableCell align="right">Nombre d'année garantie</TableCell>
-                <TableCell align="right">Disponibilité</TableCell>
-                <TableCell align="right">Parametrer l'article</TableCell>
+                <TableCell align="center">Nom de l'article</TableCell>
+                <TableCell align="center">Type</TableCell>
+                <TableCell align="center">Prix</TableCell>
+                <TableCell align="center">Note</TableCell>
+                <TableCell align="center">Nombre d'année garantie</TableCell>
+                <TableCell align="center">Disponibilité</TableCell>
+                <TableCell align="center">Paramétrer l'article</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {articles.map((article, index) => (
                 <TableRow
-                  key={article.name}
+                  key={article._id}
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
                   <TableCell component="th" scope="row">
                     {index + 1}
                   </TableCell>
-                  <TableCell align="right">{article.name}</TableCell>
-                  <TableCell align="right">{article.type}</TableCell>
-                  <TableCell align="right">{article.price}</TableCell>
-                  <TableCell align="right">{article.rating}</TableCell>
-                  <TableCell align="right">{article.warranty_years}</TableCell>
-                  <TableCell align="right">{article.available ? 'Oui' : 'Non'}</TableCell>
-                  <TableCell align="right">
-                    <Link to={`/update/${article._id}`}>
-                      <Button variant="contained" color="success" endIcon={<EditIcon />}>
-                        Modifier
+                  <TableCell align="center">{article.name}</TableCell>
+                  <TableCell align="center">{article.type}</TableCell>
+                  <TableCell align="center">{article.price} €</TableCell>
+                  <TableCell align="center">{article.rating}</TableCell>
+                  <TableCell align="center">{article.warranty_years} an(s)</TableCell>
+                  <TableCell align="center">{article.available ? 'Oui' : 'Non'}</TableCell>
+                  <TableCell align="center">
+                    <Box display="flex" justifyContent="center">
+                      <Link to={`/update/${article._id}`}>
+                        <Button sx={{ margin: '10px' }} variant="contained" color="success" endIcon={<EditIcon />}>
+                          Modifier
+                        </Button>
+                      </Link>
+                      <Button
+                        onClick={() => deleteArticle(article._id)}
+                        variant="contained"
+                        color="error"
+                        sx={{ margin: '10px' }}
+                        endIcon={<DeleteIcon />}
+                      >
+                        Supprimer
                       </Button>
-                    </Link>
-                    <Button
-                      onClick={() => deleteArticle(article._id)}
-                      variant="contained"
-                      color="error"
-                      endIcon={<DeleteIcon />}
-                    >
-                      Supprimer
-                    </Button>
+                    </Box>
                   </TableCell>
                 </TableRow>
               ))}

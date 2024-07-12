@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 
+// Définition du schéma de l'article
 const articleSchema = new mongoose.Schema({
   name: {
     type: String,

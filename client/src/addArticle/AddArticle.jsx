@@ -20,9 +20,10 @@ const AddArticle = () => {
     available: false,
   };
 
-  const [article, setArticle] = useState(initialArticleState);
-  const navigate = useNavigate();
+  const [article, setArticle] = useState(initialArticleState);  // État local pour gérer le formulaire d'ajout d'article
+  const navigate = useNavigate(); // Hook de navigation pour rediriger l'utilisateur
 
+  // Fonction pour gérer les changements dans les champs de formulaire
   const inputHandler = (e) => {
     const { name, value, type, checked } = e.target;
     setArticle({
@@ -31,6 +32,7 @@ const AddArticle = () => {
     });
   };
 
+  // Fonction pour soumettre le formulaire d'ajout d'article
   const handleSubmit = async (e) => {
     e.preventDefault();
     await axios.post('http://localhost:8000/api/article', article)

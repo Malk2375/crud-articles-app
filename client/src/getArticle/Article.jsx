@@ -17,9 +17,10 @@ import toast from 'react-hot-toast';
 import { SocketContext } from '../App';
 
 const Article = () => {
-  const [articles, setArticles] = useState([]);
-  const socket = useContext(SocketContext);
+  const [articles, setArticles] = useState([]); // État local pour stocker les articles
+  const socket = useContext(SocketContext); // Utilisation du contexte SocketContext pour gérer les événements socket
 
+  // Effectuer une requête GET au chargement du composant pour récupérer la liste des articles depuis l'API
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -32,16 +33,19 @@ const Article = () => {
     fetchData();
   }, []);
 
+  // Configurer les écouteurs d'événements socket pour les opérations CRUD en temps réel
   useEffect(() => {
     if (!socket) {
       console.error('Socket is not defined');
       return;
     }
 
+    // Écouter l'événement 'articleAdded' pour mettre à jour la liste d'articles lorsqu'un nouvel article est ajouté
     socket.on('articleAdded', (article) => {
       setArticles((prevArticles) => [...prevArticles, article]);
     });
 
+    // Écouter l'événement 'articleUpdated' pour mettre à jour un article existant lorsqu'il est modifié
     socket.on('articleUpdated', (updatedArticle) => {
       setArticles((prevArticles) =>
         prevArticles.map((article) =>
@@ -50,12 +54,14 @@ const Article = () => {
       );
     });
 
+    // Écouter l'événement 'articleDeleted' pour supprimer un article de la liste lorsqu'il est supprimé
     socket.on('articleDeleted', (articleId) => {
       setArticles((prevArticles) =>
         prevArticles.filter((article) => article._id !== articleId)
       );
     });
 
+    // Nettoyer les écouteurs d'événements socket lorsque le composant est démonté
     return () => {
       socket.off('articleAdded');
       socket.off('articleUpdated');
@@ -63,13 +69,14 @@ const Article = () => {
     };
   }, [socket]);
 
+  // Fonction pour supprimer un article en envoyant une requête DELETE à l'API
   const deleteArticle = async (articleId) => {
     await axios
-      .delete(`http://localhost:8000/api/delete/article/${articleId}`)
+      .delete(`http://localhost:8000/api/delete/article/${articleId}`) // Requête DELETE pour supprimer l'article
       .then((response) => {
         setArticles((prevArticles) =>
           prevArticles.filter((article) => article._id !== articleId)
-        );
+        ); // Mettre à jour la liste d'articles après la suppression
         toast.success(response.data.message);
         socket.emit('articleDeleted', articleId);
       })
@@ -92,6 +99,7 @@ const Article = () => {
         </Button>
       </Link>
 
+      {/* Condition pour afficher un message si aucune article n'est disponible */}
       {articles.length === 0 ? (
         <div>
           <p>Aucun article disponible.</p>

@@ -16,6 +16,7 @@ const socket = io('http://localhost:8000');
 export const SocketContext = createContext();
 
 function App() {
+  // Configuration des routes pour les différents composants
   const router = createBrowserRouter([
     {
       path: '/',
@@ -31,6 +32,7 @@ function App() {
     },
   ]);
 
+  // Effet pour gérer la connexion au serveur socket.io lorsque le composant App est monté
   useEffect(() => {
     socket.on('connect', () => {
       console.log('Connected to socket server');
@@ -43,7 +45,7 @@ function App() {
 
   return (
     <div className="App">
-      <SocketContext.Provider value={socket}>
+      <SocketContext.Provider value={socket}> {/* Fournit le socket via le contexte SocketContext aux composants enfants */}
         <Container>
           <RouterProvider router={router} />
         </Container>
